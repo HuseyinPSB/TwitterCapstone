@@ -110,27 +110,35 @@ class ProcessInfos:
                            + "-" + self.write_2_digit_number(month) + "-" + self.write_2_digit_number(iDay + 1)
             self.listPeriods.append(rewritten_text)
 
-    def specify_period_from_23_january_to_23_february_2018(self):
-        self.add_period_to_list_periods(2018, 23, 31, 31)
-        self.add_period_to_list_periods(2018, 1, 23, 31)
+    # Junction from the end of 1 month to the 1st day of the following month
+    def add_junction_from_end_of_month_to_beginning_of_next_month(self, year, month, last_day_of_month):
+            rewritten_text = "since%3A" + str(year) + "-" + self.write_2_digit_number(month) \
+                           + "-" + self.write_2_digit_number(last_day_of_month) + " until%3A" + str(year + 1 if month == 12 else year) \
+                           + "-" + self.write_2_digit_number(month+1 if month < 12 else 1) + "-01"
+            self.listPeriods.append(rewritten_text)
+
+    # Process for a complete month
+    def add_whole_month(self, year, month, last_day_of_month):
+            self.add_period_to_list_periods(year, month, 1, last_day_of_month)
+            self.add_junction_from_end_of_month_to_beginning_of_next_month(year, month, last_day_of_month )
 
     # Process for a complete year
     def add_all_days_for_a_whole_year(self, year):
-        self.add_period_to_list_periods(year, 1, 1, 31)
+        self.add_whole_month(year, 1, 31)
         if year == 2016:
-            self.add_period_to_list_periods(year, 2, 1, 29)
+            self.add_whole_month(year, 2, 29)
         else:
-            self.add_period_to_list_periods(year, 2, 1, 28)
-        self.add_period_to_list_periods(year, 3, 1, 31)
-        self.add_period_to_list_periods(year, 4, 1, 30)
-        self.add_period_to_list_periods(year, 5, 1, 31)
-        self.add_period_to_list_periods(year, 6, 1, 30)
-        self.add_period_to_list_periods(year, 7, 1, 31)
-        self.add_period_to_list_periods(year, 8, 1, 31)
-        self.add_period_to_list_periods(year, 9, 1, 30)
-        self.add_period_to_list_periods(year, 10, 1, 31)
-        self.add_period_to_list_periods(year, 11, 1, 30)
-        self.add_period_to_list_periods(year, 12, 1, 31)
+            self.add_whole_month(year, 2, 28)
+        self.add_whole_month(year, 3, 31)
+        self.add_whole_month(year, 4, 30)
+        self.add_whole_month(year, 5, 31)
+        self.add_whole_month(year, 6, 30)
+        self.add_whole_month(year, 7, 31)
+        self.add_whole_month(year, 8, 31)
+        self.add_whole_month(year, 9, 30)
+        self.add_whole_month(year, 10, 31)
+        self.add_whole_month(year, 11, 30)
+        self.add_whole_month(year, 12, 31)
 
 
     # Crawl process + writing of the csv or json file
@@ -265,13 +273,17 @@ process_infos.add_preset_keywords_related_with("pollution")
 # processInfos.listKeywords.append("specific_keyword")
 
 # 2) SPECIFY PERIOD(S) OF TIME TO BE CRAWLED
-# add_period_to_list_periods(2015, 9, 12, 14) means a period from 13 September to 14 September 2015
+# add_period_to_list_periods(2015, 9, 12, 14) means a period from 12 September to 14 September 2015
 # it will do successively the following searches:
 # https://twitter.com/search?f=tweets&l=fr&q=pollution OR pollutions since%3A2015-09-12 until%3A2015-09-13
 # https://twitter.com/search?f=tweets&l=fr&q=pollution OR pollutions since%3A2015-09-13 until%3A2015-09-14
 # and creates 2 csv files, 1 for each day
 process_infos.add_period_to_list_periods(2015, 9, 12, 14)
 
+# for having a whole month (example here for May 2013)
+#process_infos.add_whole_month(2013, 5, 31)
+# for having a whole year (example here for year 2014)
+#process_infos.add_all_days_for_a_whole_year(2014)
 
 # 3) CRAWL AND WRITE CSV FILE OR JSON FEED
 for keyword in process_infos.listKeywords:

@@ -97,8 +97,8 @@ for entry in listOfFiles:
             append_words_to_all_words_issued_from_all_messages(all_words_issued_from_all_messages, folder_name + "/" + entry)
 
 # Counter counts the number off occurences of all words contained in the all_words_issued_from_all_messages
-# We print the 75 words having the biggest count
-count_each_word = Counter(all_words_issued_from_all_messages).most_common(75)
+# We print the 200 words having the biggest count
+count_each_word = Counter(all_words_issued_from_all_messages).most_common(200)
 
 # This piece of code prints in the console mode the 75 words appearing most of times in the messages contents
 for searchedWord in count_each_word:

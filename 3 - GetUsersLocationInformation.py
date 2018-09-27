@@ -64,17 +64,17 @@ def process(entry):
                 # 2 - Would have been interesting if was giving exact centroids for different places but for example:
                 #     for location_id = "Paris, France", it will always give centroid : 48.85883375,2.320050211719896
                 #     so not needed really, location_id is sufficient
-                if user.profile_location is not None:
-                    user_with_geo_infos.user_profile_location_id = user.profile_location["id"]
-                    geo_infos = api.geo_id(user_with_geo_infos.user_profile_location_id)
-                    user_with_geo_infos.country = geo_infos.country
-                    user_with_geo_infos.country_code = geo_infos.country_code
-                    user_with_geo_infos.full_name = geo_infos.full_name
-                    user_with_geo_infos.name = geo_infos.name
-                    user_with_geo_infos.placeType = geo_infos.place_type
-                    if geo_infos.centroid is not None:
-                        user_with_geo_infos.centroid_Latitude = geo_infos.centroid[1]
-                        user_with_geo_infos.centroid_Longitude = geo_infos.centroid[0]
+                #if user.profile_location is not None:
+                #    user_with_geo_infos.user_profile_location_id = user.profile_location["id"]
+                #    geo_infos = api.geo_id(user_with_geo_infos.user_profile_location_id)
+                #    user_with_geo_infos.country = geo_infos.country
+                #     user_with_geo_infos.country_code = geo_infos.country_code
+                #    user_with_geo_infos.full_name = geo_infos.full_name
+                #    user_with_geo_infos.name = geo_infos.name
+                #    user_with_geo_infos.placeType = geo_infos.place_type
+                #    if geo_infos.centroid is not None:
+                #        user_with_geo_infos.centroid_Latitude = geo_infos.centroid[1]
+                #        user_with_geo_infos.centroid_Longitude = geo_infos.centroid[0]
 
                 # Write in the output csv file location information corresponding to the user
                 write_user_geo_infos_line(user_with_geo_infos)
